@@ -7,6 +7,7 @@
 
 int login();
 int newacc();
+int fpass();
 
 
 struct signup
@@ -29,14 +30,15 @@ int main()
     printf("\n      3. Exit");
     printf("\n  Enter your choice  ");
     scanf("%d",&choice);
-    swtich(choice)
+    fflush(stdin);
+    switch(choice)
     {
         case 1:
-        log=login();
+        log=newacc();
         break;
 
         case 2:
-        sign=newacc();
+        sign=login();
         break;
 
         case 3:
@@ -60,12 +62,16 @@ int newacc()
     char repass[20];
     reform:
     printf("========================= Signup Form =====================");
-    printf(" User_name:  \n");
+    printf("\n User_name:  \n");
+    fflush(stdin);
     fgets(sform.uname,sizeof(sform.uname),stdin);
-    printf(" Passeord : \n");
+    printf(" Password : \n");
+    fflush(stdin);
     fgets(sform.pass,sizeof(sform.pass),stdin);
     printf("Conform_password:\n");
+    fflush(stdin);
     fgets(repass,sizeof(repass),stdin);
+    fflush(stdin);
     printf("Phone_number:\n");
     scanf("%lld",sform.ph);
     if(strcmp(sform.pass,repass)!=0)
@@ -79,19 +85,23 @@ int newacc()
     printf("\n \n SIGNUP SUCESSFULL.  WELCOME !!!");
     printf("\n\n \t\t Press any key to continue... \n");
     getchar;
+
     return 1;
 }
 
 int login()
 {
     
-    int i=0,n=0, choice;
+    int i=0,n=0, choice,passforget;
     char inp_Name[50],inp_Pass[20],ch;
     relog:
     printf("\n========================= Login Form ======================\n");
+    fflush(stdin);
     printf("User_Name: \n");
     fgets(inp_Name,sizeof(inp_Name),stdin);
+    fflush(stdin);
     printf("Password:  \n");
+    fflush(stdin);
     fgets(inp_Pass,sizeof(inp_Pass),stdin);
 
         /*printf("\nLoading");
@@ -124,6 +134,8 @@ int login()
         switch(choice)
         {
             case 1:
+            passforget=fpass();
+
 
 
 
