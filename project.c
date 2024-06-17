@@ -14,7 +14,7 @@ struct signup
 {
     char uname[50];
     char pass[20];
-    long long int ph;
+    unsigned long long int ph;
 }sform;
 
  FILE *fp,*ft;
@@ -167,3 +167,54 @@ void login()
 }    
 
 
+void fpass()
+{
+    char fname[50],fpsw;
+    unsigned long long int fph;
+    forget:
+    printf("=========================== Password Change Form ==================================");
+    printf("User_Name:");
+    fflush(stdin);
+    fgets(fname,sizeof(fname),stdin);
+    printf("Contact number:");
+    fflush(stdin);
+    scanf("%lld",&fph);
+    if(sform.ph==fph)
+    {
+        while(fread(&sform,sizeof(sform),1,fp)==1)
+        {
+
+            if(strcmp(fname,sform.uname)==0)
+            {
+                printf("Password:");
+                fgets(sform.ph,sizeof(sform),stdin);
+                printf("Conform_password:");
+                scanf("%lld",&fph);
+                if(sform.ph==fph)
+                {
+                    fwrite(&sform,sizeof(sform),1,fp);
+                    printf("Passeord changed sucessfully");
+                    getchar();
+                }
+                else
+                {
+                    printf("Both password donot match ");
+                    printf("Redirecting to Change passeord form");
+                    goto forget;
+
+                }
+                
+
+            }
+
+        }
+    }
+    else
+    {   
+        printf("The Number donot match.\n Redirecting to change form");
+        getchar();
+        goto forget;
+
+    }    
+    
+}
