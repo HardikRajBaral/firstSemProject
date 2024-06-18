@@ -179,18 +179,17 @@ void fpass()
     printf("Contact number:");
     fflush(stdin);
     scanf("%lld",&fph);
-    if(sform.ph==fph)
-    {
+  
         while(fread(&sform,sizeof(sform),1,fp)==1)
         {
 
-            if(strcmp(fname,sform.uname)==0)
+            if(strcmp(fname,sform.uname)==0 && sform.ph==fph)
             {
                 printf("Password:");
                 fgets(sform.ph,sizeof(sform),stdin);
                 printf("Conform_password:");
-                scanf("%lld",&fph);
-                if(sform.ph==fph)
+                scanf(&fpsw,sizeof(fpsw),stdin);
+                if(strcmp(fpsw,sform.pass)==0)
                 {
                     fwrite(&sform,sizeof(sform),1,fp);
                     printf("Passeord changed sucessfully");
@@ -206,15 +205,16 @@ void fpass()
                 
 
             }
+            else
+            {
+                printf("your Username or Details do not match. Redirecting to change passord form.");
+                goto forget;
+
+            }
 
         }
-    }
-    else
-    {   
-        printf("The Number donot match.\n Redirecting to change form");
-        getchar();
-        goto forget;
+   
 
-    }    
+      
     
 }
