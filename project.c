@@ -8,6 +8,7 @@
 void login();
 void newacc();
 void fpass();
+void clear();
 
 
 struct signup
@@ -33,6 +34,7 @@ int main()
 
     //menu
     re:
+    clear();
     printf("\n========================= WELCOME  =========================");
     printf("\n      1. Signup ");
     printf("\n      2. Login ");
@@ -70,6 +72,7 @@ void newacc()
 {
     char repass[20];
     reform:
+    clear();
     printf("========================= Signup Form =====================");
     printf("\n User_name:  \n");
     fflush(stdin);
@@ -82,7 +85,7 @@ void newacc()
     fgets(repass,sizeof(repass),stdin);
     fflush(stdin);
     printf("Phone_number:\n");
-    scanf("%lld",sform.ph);
+    scanf("%lld",&sform.ph);
     
     if(strcmp(sform.pass,repass)!=0)
     {
@@ -106,6 +109,7 @@ void login()
     int i=0,n=0, choice,passforget;
     char inp_Name[50],inp_Pass[20],ch;
     relog:
+    clear();
     printf("\n========================= Login Form ======================\n");
     fflush(stdin);
     printf("User_Name: \n");
@@ -115,21 +119,27 @@ void login()
     fflush(stdin);
     fgets(inp_Pass,sizeof(inp_Pass),stdin);
     fread(&sform,sizeof(sform),1,fp);
+    rewind(fp);
+    while (fread(&sform,sizeof(sform),1,fp)==1)
+    {
+  
+    
 
     
-    if(strcmp(sform.pass,inp_Pass)==0 && strcmp(sform.uname,inp_Name)!=0);
-    {
-        n++;
-        printf("Incorrect Password or User_Name. Please try again.  ");
-        if (n>3)
-        {   
-            getchar();
-            printf("====================================================");
-            printf("1.  Forgot Password");
-            printf("2.  Retry");
-            printf("3.  Exit");
-            printf("Enter your choice :");
-            scanf("%d",&choice);
+        if(strcmp(sform.pass,inp_Pass)==0 && strcmp(sform.uname,inp_Name)!=0);
+        {
+            n++;
+            printf("Incorrect Password or User_Name. Please try again.  ");
+            if (n>3)
+            {   
+                getchar();
+                clear();
+                printf("====================================================");
+                printf("1.  Forgot Password");
+                printf("2.  Retry");
+                printf("3.  Exit");
+                printf("Enter your choice :");
+                scanf("%d",&choice);
             switch(choice)
             {
                 case 1:
@@ -153,25 +163,27 @@ void login()
             }
 
 
-        }
-    
-            printf(" \n\n\n WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
-            printf("\n\n\n\t\t\t\tPress any key to continue...");
-            getchar();
-   
+            }
+            else
+            {
+        
+                printf(" \n\n\n WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
+                printf("\n\n\n\t\t\t\tPress any key to continue...");
+                getchar();
+                goto relog;
+            }
 
-    
-        goto relog;
-    
+        }
     }
 }    
 
 
 void fpass()
 {
-    char fname[50],fpsw;
+    char fname[50],fpsw[20];
     unsigned long long int fph;
     forget:
+    clear();
     printf("=========================== Password Change Form ==================================");
     printf("User_Name:");
     fflush(stdin);
@@ -179,6 +191,7 @@ void fpass()
     printf("Contact number:");
     fflush(stdin);
     scanf("%lld",&fph);
+    rewind(fp);
   
         while(fread(&sform,sizeof(sform),1,fp)==1)
         {
@@ -186,9 +199,9 @@ void fpass()
             if(strcmp(fname,sform.uname)==0 && sform.ph==fph)
             {
                 printf("Password:");
-                fgets(sform.ph,sizeof(sform),stdin);
+                fgets(sform.pass,sizeof(sform),stdin);
                 printf("Conform_password:");
-                scanf(&fpsw,sizeof(fpsw),stdin);
+                fgets(fpsw,sizeof(fpsw),stdin);
                 if(strcmp(fpsw,sform.pass)==0)
                 {
                     fwrite(&sform,sizeof(sform),1,fp);
@@ -213,8 +226,8 @@ void fpass()
             }
 
         }
-   
-
-      
-    
+}
+void clear()
+{
+    system("cls");
 }
