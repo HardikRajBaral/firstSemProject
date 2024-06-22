@@ -13,6 +13,7 @@ void clear();
 void addrec();
 void remrec();
 void listrec();
+void Modify();
 
 struct inventory
 {
@@ -254,6 +255,7 @@ void addrec()
     char option;
     rewind(ft);
     clear();
+    readd:
     printf("================ Item Page ===============\n");
     printf(" Item_Name : \n");
     fgets(godam.Item,sizeof(godam.Item),stdin);
@@ -265,10 +267,14 @@ void addrec()
     scanf("%f",godam.rate);
     getchar();
     fwrite(&godam,sizeof(godam),1,ft);
-    printf("Do you want to add more item? (Y/N)");
+    printf("Do you want to add more item? (Y/N)\n");
     fgets(&option,sizeof(option),stdin);
     toupper(option);
-    if (option=='Y');
+    if (option=='Y')
+    {
+        goto readd;
+    }
+
 
 
 }
@@ -276,10 +282,23 @@ void addrec()
 
 void listrec()
 {
+    rewind(ft);
+    while(fread(&godam,sizeof(godam),1,ft)==1)
+    {
+        print("Name: \t\t\t Price: \t\t\t  Quantity: \t\t\t Total: \t\t\t\n");
+        godam.Total=godam.rate*godam.Quantity;
+        printf(" %s \t\t\t .2%f \t\t\t %d \t\t\t\n ");
+    }
+}
+
+void Modify()
+{
+
 
 }
 
 void remrec()
 {
+
 
 }
