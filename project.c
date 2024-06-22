@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+#include<ctype.h>
 
 
 
@@ -9,6 +10,19 @@ void login();
 void newacc();
 void fpass();
 void clear();
+void addrec();
+void remrec();
+void listrec();
+
+struct inventory
+{
+    char Item[50];
+    int  Quantity;
+    float rate;
+    float  Total;
+
+}godam;
+
 
 
 struct signup
@@ -25,14 +39,17 @@ int main()
     int log ,sign, choice;
    
     fp=fopen("signup.txt","a+");
+    ft=fopen("Inventorylist.txt","a+");
     if(fp==NULL)
-		{
-			puts("FILE CANNOT OPEN");
-			exit(0);
-		}
-    
-
-    //menu
+	{
+		puts("FILE CANNOT OPEN");
+		exit(0);
+	}
+    if(ft==NULL)
+    {
+        puts("File Cannot Open");
+        exit(0);
+    }    
     re:
     clear();
     printf("\n========================= WELCOME  =========================");
@@ -230,4 +247,39 @@ void fpass()
 void clear()
 {
     system("cls");
+}
+
+void addrec()
+{
+    char option;
+    rewind(ft);
+    clear();
+    printf("================ Item Page ===============\n");
+    printf(" Item_Name : \n");
+    fgets(godam.Item,sizeof(godam.Item),stdin);
+    fflush(stdin);
+    printf(" Quantity :\n");
+    scanf("%d",godam.Quantity);
+    fflush(stdin);
+    printf(" Price :\n");
+    scanf("%f",godam.rate);
+    getchar();
+    fwrite(&godam,sizeof(godam),1,ft);
+    printf("Do you want to add more item? (Y/N)");
+    fgets(&option,sizeof(option),stdin);
+    toupper(option);
+    if (option=='Y');
+
+
+}
+
+
+void listrec()
+{
+
+}
+
+void remrec()
+{
+
 }
