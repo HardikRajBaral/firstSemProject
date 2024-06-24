@@ -459,10 +459,4 @@ void remrec()
     {
         goto reremove;
     }
-
-
-
-
-
-
 }
