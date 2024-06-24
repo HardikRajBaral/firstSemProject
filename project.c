@@ -285,7 +285,7 @@ void listrec()
     rewind(ft);
     while(fread(&godam,sizeof(godam),1,ft)==1)
     {
-        print("Name: \t\t\t Price: \t\t\t  Quantity: \t\t\t Total: \t\t\t\n");
+        prinft("Name: \t\t\t Price: \t\t\t  Quantity: \t\t\t Total: \t\t\t\n");
         godam.Total=godam.rate*godam.Quantity;
         printf(" %s \t\t\t .2%f \t\t\t %d \t\t\t\n ");
     }
@@ -293,6 +293,70 @@ void listrec()
 
 void Modify()
 {
+    int opt;
+    char name[50],ch;
+    clear();
+    rewind(fp);
+    remodify:
+    printf("================ Modification Menu ============");
+    printf("1.Quantity \t\t\n 2.Price\t\t\n 3.Exit\n");
+    switch(opt)
+    {
+        case 1:
+        printf("Enter the Name of product");
+        fflush(stdin);
+        fgets(name,sizeof(name),stdin);
+        while (fread(&godam,sizeof(godam),1,ft)==1);
+        {
+            if(strcmp(godam.Item,name)==0)
+            {
+                printf("Enter New Quantity: \n");
+                scanf("%d",godam.Quantity);
+                fseek(fp,-sizeof(godam),SEEK_CUR);
+                fwrite(&godam,sizeof(godam),1,ft);
+                break;
+            }    
+        }
+        printf("DO you want to Modify more Quantity? (Y/N)");
+        fflush(stdin);
+        scanf("%c",&ch);
+        toupper(ch);
+        if(ch=="Y")
+        {
+            goto remodify;
+        }
+        break;
+
+        case 2:
+        printf("Enter the Name of product");
+        fflush(stdin);
+        fgets(name,sizeof(name),stdin);
+        while (fread(&godam,sizeof(godam),1,ft)==1);
+        {
+            if(strcmp(godam.Item,name)==0)
+            {
+                printf("Enter New Prce: \n");
+                scanf("%d",godam.rate);
+                fseek(fp,-sizeof(godam),SEEK_CUR);
+                fwrite(&godam,sizeof(godam),1,ft);
+                break;
+            }    
+        }
+        printf("DO you want to Modify more Quantity? (Y/N)");
+        fflush(stdin);
+        scanf("%c",&ch);
+        toupper(ch);
+        if(ch=="Y")
+        {
+            goto remodify;
+        }
+        break;
+
+        case 3:
+        exit(0);
+
+    }
+    
 
 
 }
