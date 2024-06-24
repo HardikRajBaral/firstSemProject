@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<ctype.h>
-
+#include<unistd.h>
 
 
 
@@ -33,24 +33,11 @@ struct signup
     unsigned long long int ph;
 }sform;
 
- FILE *fp,*ft;
+ FILE *fp,*ft,*rt;
 
 int main()
 {
     int log ,sign, choice;
-   
-    fp=fopen("signup.txt","a+");
-    ft=fopen("Inventorylist.txt","a+");
-    if(fp==NULL)
-	{
-		puts("FILE CANNOT OPEN");
-		exit(0);
-	}
-    if(ft==NULL)
-    {
-        puts("File Cannot Open");
-        exit(0);
-    }    
     re:
     clear();
     printf("\n========================= WELCOME  =========================");
@@ -72,11 +59,11 @@ int main()
         break;
 
         case 3:
-        printf("====================== Thankyou For Your Time====================");
+        printf("====================== Thankyou For Your Time====================\n");
         exit(0);
 
         deafult:
-        printf("The input is incorrect. Please input the number of the choices");
+        printf("The input is incorrect. Please input the number of the choices\n");
         goto re;
     }
 
@@ -89,41 +76,57 @@ int main()
 
 void newacc()
 {
+    fp=fopen("signup.txt","a+");
+    if(fp==NULL)
+    {
+        puts("File Cannot Open");
+        exit(0);
+    }   
     char repass[20];
     reform:
     clear();
     printf("========================= Signup Form =====================");
-    printf("\n User_name:  \n");
+    printf("\n User_name:  ");
     fflush(stdin);
     fgets(sform.uname,sizeof(sform.uname),stdin);
-    printf(" Password : \n");
+    printf(" \nPassword : ");
     fflush(stdin);
     fgets(sform.pass,sizeof(sform.pass),stdin);
-    printf("Conform_password:\n");
+    printf("\nConform_password:");
     fflush(stdin);
     fgets(repass,sizeof(repass),stdin);
     fflush(stdin);
-    printf("Phone_number:\n");
+    printf("\nPhone_number:\n");
     scanf("%lld",&sform.ph);
     
     if(strcmp(sform.pass,repass)!=0)
     {
-        printf("The password donot match.Please re-enter.");
+        printf("The password donot match.Please re-enter.\n");
         printf("\n\n\n\n \t\t Press any key to continue...");
         getchar();
 
         goto reform;
     }
-    fwrite(&sform,sizeof(sform),1,fp);
-    printf("\n \n SIGNUP SUCESSFULL.  WELCOME !!!");
-    printf("\n\n \t\t Press any key to continue... \n");
-    getchar;
-
+    else
+    {
+        fwrite(&sform,sizeof(sform),1,fp);
+        printf("\n \n SIGNUP SUCESSFULL.  WELCOME !!!\n");
+        printf("\n\n \t\t Press any key to continue... \n");
+        getchar;
+    }
+    fclose(fp);
     
 }
 
 void login()
 {
+
+    fp=fopen("signup.txt","a+");
+    if(fp==NULL)
+    {
+        puts("File Cannot Open");
+        exit(0);
+    }   
     
     int i=0,n=0, choice,passforget;
     char inp_Name[50],inp_Pass[20],ch;
@@ -137,7 +140,7 @@ void login()
     printf("Password:  \n");
     fflush(stdin);
     fgets(inp_Pass,sizeof(inp_Pass),stdin);
-    fread(&sform,sizeof(sform),1,fp);
+    
     rewind(fp);
     while (fread(&sform,sizeof(sform),1,fp)==1)
     {
@@ -148,12 +151,12 @@ void login()
         if(strcmp(sform.pass,inp_Pass)!=0 || strcmp(sform.uname,inp_Name)!=0)
         {
             n++;
-            printf("Incorrect Password or User_Name. Please try again.  ");
+            printf("Incorrect Password or User_Name. Please try again.  \n");
             if (n>3)
             {   
                 getchar();
                 clear();
-                printf("====================================================");
+                printf("====================================================\n");
                 printf("1.  Forgot Password\n");
                 printf("2.  Retry\n");
                 printf("3.  Exit\n");
@@ -173,65 +176,94 @@ void login()
                     goto relog;
 
                     case 3:
-                    printf("=====================Thankyou for your Time ==========");
+                    printf("=====================Thankyou for your Time ==========\n");
                     exit(0);
 
                     default:
-                    printf("-------------------Invalid Input-----------------------");
+                    printf("-------------------Invalid Input-----------------------\n");
+                    printf("Redirecting");
+                    fflush(stdout);
+                    usleep(10000);
+                    printf(".");
+                    usleep(10000);
+                    printf(".");
+                    usleep(10000);
+                    printf(".");
                     goto relog;
                 }
 
-
             }
-           
+            goto relog;
 
         }
         else
         {
         
             printf(" \n\n\n WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
-            printf("\n\n\n\t\t\t\tPress any key to continue...");
-            getchar();
-            goto relog;
+            printf("\n\n\n\t\t\t\tRedirecting");
+            fflush(stdout);
+            usleep(10000);
+            printf(".");
+            usleep(10000);
+            printf(".");
+            usleep(10000);
+            printf(".");
+           
+            
         }
     }
+    fclose(fp);
 }    
 
 
 void fpass()
 {
+    fp=fopen("signup.txt","a+");
+    if(fp==NULL)
+    {
+        puts("File Cannot Open");
+        exit(0);
+    }   
     char fname[50],fpsw[20];
     unsigned long long int fph;
     forget:
     clear();
-    printf("=========================== Password Change Form ==================================");
-    printf("User_Name:");
+    printf("=========================== Password Change Form ==================================\n");
+    printf("User_Name:\n");
     fflush(stdin);
     fgets(fname,sizeof(fname),stdin);
-    printf("Contact number:");
+    printf("Contact number:\n");
     fflush(stdin);
     scanf("%lld",&fph);
     rewind(fp);
-  
         while(fread(&sform,sizeof(sform),1,fp)==1)
         {
 
             if(strcmp(fname,sform.uname)==0 && sform.ph==fph)
             {
-                printf("Password:");
+                printf("Password:\n");
+                fflush(stdin);
                 fgets(sform.pass,sizeof(sform),stdin);
-                printf("Conform_password:");
+                printf("Conform_password:\n");
+                fflush(stdin);
                 fgets(fpsw,sizeof(fpsw),stdin);
                 if(strcmp(fpsw,sform.pass)==0)
                 {
                     fwrite(&sform,sizeof(sform),1,fp);
-                    printf("Passeord changed sucessfully");
+                    printf("Password changed sucessfully\n");
                     getchar();
                 }
                 else
                 {
-                    printf("Both password donot match ");
-                    printf("Redirecting to Change passeord form");
+                    printf("Both password donot match \n");
+                    printf("Redirecting");
+                    fflush(stdout);
+                    usleep(10000);
+                    printf(".");
+                    usleep(10000);
+                    printf(".");
+                    usleep(10000);
+                    printf(".");
                     goto forget;
 
                 }
@@ -240,12 +272,13 @@ void fpass()
             }
             else
             {
-                printf("Your Username or Details do not match. Redirecting to change passord form....");
+                printf("Your Username or Details do not match. Redirecting to change passord form....\n");
                 goto forget;
 
             }
 
         }
+        fclose(fp);
 }
 void clear()
 {
@@ -254,6 +287,13 @@ void clear()
 
 void addrec()
 {
+
+    ft=fopen("Inventorylist.txt","a+");
+    if(ft==NULL)
+	{
+		puts("FILE CANNOT OPEN");
+		exit(0);
+	}
     char option;
     rewind(ft);
     clear();
@@ -277,32 +317,48 @@ void addrec()
         goto readd;
     }
 
-
+    fclose(ft);
 
 }
 
 
 void listrec()
 {
+
+    ft=fopen("Inventorylist.txt","a+");
+    if(ft==NULL)
+	{
+		puts("FILE CANNOT OPEN");
+		exit(0);
+	}
     rewind(ft);
     clear();
-    printf("========== Sorting order ============");
+    printf("========== Sorting order ============\n");
     printf("1. ");
+    fclose(ft);
 }
+
 
 void Modify()
 {
+
+    ft=fopen("Inventorylist.txt","a+");
+    if(ft==NULL)
+	{
+		puts("FILE CANNOT OPEN");
+		exit(0);
+	}
     int opt;
     char name[50],ch;
     clear();
     rewind(fp);
     remodify:
-    printf("================ Modification Menu ============");
+    printf("================ Modification Menu ============\n");
     printf("1.Quantity \t\t\n 2.Price\t\t\n 3.Exit\n");
     switch(opt)
     {
         case 1:
-        printf("Enter the Name of product");
+        printf("Enter the Name of product: \n");
         fflush(stdin);
         fgets(name,sizeof(name),stdin);
         while (fread(&godam,sizeof(godam),1,ft)==1);
@@ -316,10 +372,10 @@ void Modify()
                 break;
             }    
         }
-        printf("DO you want to Modify more Quantity? (Y/N)");
+        printf("DO you want to Modify more Quantity? (Y/N)\n");
         fflush(stdin);
         scanf("%c",&ch);
-        toupper(ch);
+        ch=toupper(ch);
         if(ch=="Y")
         {
             goto remodify;
@@ -327,7 +383,7 @@ void Modify()
         break;
 
         case 2:
-        printf("Enter the Name of product");
+        printf("Enter the Name of product\n");
         fflush(stdin);
         fgets(name,sizeof(name),stdin);
         while (fread(&godam,sizeof(godam),1,ft)==1);
@@ -341,7 +397,7 @@ void Modify()
                 break;
             }    
         }
-        printf("DO you want to Modify more Quantity? (Y/N)");
+        printf("DO you want to Modify more Price? (Y/N)\n");
         fflush(stdin);
         scanf("%c",&ch);
         toupper(ch);
@@ -355,15 +411,58 @@ void Modify()
         exit(0);
 
         default:
-        printf("Invalid inpt. Redirecting.....");
+        printf("Invalid inpt. Redirecting");
+        fflush(stdout);
+        usleep(10000);
+        printf(".");
+        usleep(10000);
+        printf(".");
+        usleep(10000);
+        printf(".");
+        
         goto remodify;
 
     }
-    
+
+    fclose(ft);    
 }
 
 void remrec()
 {
+    char itemname[50];
+    char option;
+    rt=fopen("Tempinventory.txt","a+");
+    ft=fopen("Inventorylist.txt","a+");
+    if(ft==NULL)
+    {
+        printf("File not found!!!");
+        exit(0);
+    }
+    reremove:
+    printf(" Item Name:\n");
+    fflush(stdin);
+    fgets(itemname,sizeof(itemname),stdin);
+    while(fread(&godam,sizeof(godam),1,ft)==1)
+    {
+        if(strcmp(itemname,godam.Item)!=0)
+        {
+            fwrite(&godam,sizeof(godam),1,rt);
+        }
+    }
+    fclose(rt);
+    fclose(ft);
+    remove("Inventorylist.txt");
+    rename("Tempinventory.txt","Inventorylist.txt");
+    printf("Do you want to remove more Items.(Y/N) ");
+    scanf("%c",&option);
+    if (option=='Y')
+    {
+        goto reremove;
+    }
+
+
+
+
 
 
 }
