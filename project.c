@@ -54,16 +54,17 @@ int main()
     re:
     clear();
     printf("\n========================= WELCOME  =========================");
-    printf("\n      1. Signup ");
-    printf("\n      2. Login ");
-    printf("\n      3. Exit");
-    printf("\n  Enter your choice  ");
+    printf("\n      1. Signup \n");
+    printf("\n      2. Login \n");
+    printf("\n      3. Exit\n");
+    printf("\n  Enter your choice \n ");
     scanf("%d",&choice);
     fflush(stdin);
     switch(choice)
     {
         case 1:
         newacc();
+        goto re;
         break;
 
         case 2:
@@ -144,7 +145,7 @@ void login()
     
 
     
-        if(strcmp(sform.pass,inp_Pass)==0 && strcmp(sform.uname,inp_Name)!=0);
+        if(strcmp(sform.pass,inp_Pass)!=0 || strcmp(sform.uname,inp_Name)!=0)
         {
             n++;
             printf("Incorrect Password or User_Name. Please try again.  ");
@@ -153,44 +154,45 @@ void login()
                 getchar();
                 clear();
                 printf("====================================================");
-                printf("1.  Forgot Password");
-                printf("2.  Retry");
-                printf("3.  Exit");
-                printf("Enter your choice :");
+                printf("1.  Forgot Password\n");
+                printf("2.  Retry\n");
+                printf("3.  Exit\n");
+                printf("Enter your choice :\n");
                 scanf("%d",&choice);
-            switch(choice)
-            {
-                case 1:
-                fpass();
-                break;
+                switch(choice)
+                {
+                    case 1:
+                    fpass();
+                    break;
                 
 
 
 
 
-                case 2:
-                goto relog;
+                    case 2:
+                    goto relog;
 
-                case 3:
-                printf("=====================Thankyou for your Time ==========");
-                exit(0);
+                    case 3:
+                    printf("=====================Thankyou for your Time ==========");
+                    exit(0);
 
-                default:
-                printf("-------------------Invalid Input-----------------------");
-                goto relog;
+                    default:
+                    printf("-------------------Invalid Input-----------------------");
+                    goto relog;
+                }
+
+
             }
+           
 
-
-            }
-            else
-            {
+        }
+        else
+        {
         
-                printf(" \n\n\n WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
-                printf("\n\n\n\t\t\t\tPress any key to continue...");
-                getchar();
-                goto relog;
-            }
-
+            printf(" \n\n\n WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
+            printf("\n\n\n\t\t\t\tPress any key to continue...");
+            getchar();
+            goto relog;
         }
     }
 }    
@@ -238,7 +240,7 @@ void fpass()
             }
             else
             {
-                printf("your Username or Details do not match. Redirecting to change passord form.");
+                printf("Your Username or Details do not match. Redirecting to change passord form....");
                 goto forget;
 
             }
@@ -283,12 +285,9 @@ void addrec()
 void listrec()
 {
     rewind(ft);
-    while(fread(&godam,sizeof(godam),1,ft)==1)
-    {
-        prinft("Name: \t\t\t Price: \t\t\t  Quantity: \t\t\t Total: \t\t\t\n");
-        godam.Total=godam.rate*godam.Quantity;
-        printf(" %s \t\t\t .2%f \t\t\t %d \t\t\t\n ");
-    }
+    clear();
+    printf("========== Sorting order ============");
+    printf("1. ");
 }
 
 void Modify()
@@ -355,10 +354,12 @@ void Modify()
         case 3:
         exit(0);
 
+        default:
+        printf("Invalid inpt. Redirecting.....");
+        goto remodify;
+
     }
     
-
-
 }
 
 void remrec()
