@@ -334,7 +334,7 @@ void listrec()
     rewind(ft);
     clear();
     printf("========== Item List ============\n");
-    while (fread(&godma,sizeof(godam),1,ft)==1)
+    while (fread(&godam,sizeof(godam),1,ft)==1)
     {
         godam.total=godam.Quantity*godam.rate;
         printf("\nItem Name: \t\t Quantity: \t\t Price: \t\t Total Value: \t\n");
