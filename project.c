@@ -37,7 +37,7 @@ struct signup
 
 int main()
 {
-    int log ,sign, choice;
+    int log ,sign, choice,n;
     re:
     clear();
     printf("\n========================= WELCOME  =========================");
@@ -59,18 +59,56 @@ int main()
         break;
 
         case 3:
-        printf("====================== Thankyou For Your Time====================\n");
+        printf("====================== Thankyou For Your Time ====================\n");
         exit(0);
 
         deafult:
         printf("The input is incorrect. Please input the number of the choices\n");
         goto re;
     }
+    clear();
+    printf("Loading");
+    fflush(stdout);
+    usleep(10000);
+    printf(".");
+    usleep(10000);
+    printf(".");
+    usleep(10000);
+    printf(".");
+    flag:
+    clear();
+    printf("===================== Inventory Management System =========================\n");
+    printf(" 1.Add Item \n 2.List Item \n 3.Modify Item\n 4.Delete Item\n 5.Exit");
+    scanf("%d",&n);
+    switch(n)
+    {
+        case 1:
+        addrec();
+        goto flag;
+
+        case 2:
+        listrec();
+        goto flag:
+
+        case 3:
+        Modify();
+        goto flag;
+
+        case 4 :
+        remrec();
+        goto flag;
+
+        case 5:
+        printf("------------------Thankyou For Your Time ------------------");
+        exit(0);
+
+        deafult:
+        printf("Invalid Input. Reidrecting to Home");
+        goto flag;
+    }    
+
 
     return 0;
-
-
-
 
 }
 
@@ -336,14 +374,21 @@ void listrec()
     printf("========== Item List ============\n");
     while (fread(&godam,sizeof(godam),1,ft)==1)
     {
-        godam.total=godam.Quantity*godam.rate;
+        godam.Total=godam.Quantity*godam.rate;
         printf("\nItem Name: \t\t Quantity: \t\t Price: \t\t Total Value: \t\n");
         printf("%s \t\t %d \t\t .2%f \t\t %f\t\t\n");
     }
+    printf("Thankyou  For visiting ");
+    fflush(stdout);
+    usleep(10000);
+    printf(".");
+    usleep(10000);
+    printf(".");
+    usleep(10000);
+    printf(".");
     
     fclose(ft);
 }
-
 
 void Modify()
 {
