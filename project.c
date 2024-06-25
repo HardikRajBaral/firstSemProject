@@ -333,8 +333,14 @@ void listrec()
 	}
     rewind(ft);
     clear();
-    printf("========== Sorting order ============\n");
-    printf("1. ");
+    printf("========== Item List ============\n");
+    while (fread(&godma,sizeof(godam),1,ft)==1)
+    {
+        godam.total=godam.Quantity*godam.rate;
+        printf("\nItem Name: \t\t Quantity: \t\t Price: \t\t Total Value: \t\n");
+        printf("%s \t\t %d \t\t .2%f \t\t %f\t\t\n");
+    }
+    
     fclose(ft);
 }
 
