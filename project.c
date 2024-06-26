@@ -79,6 +79,7 @@ int main()
     clear();
     printf("===================== Inventory Management System =========================\n");
     printf(" 1.Add Item \n 2.List Item \n 3.Modify Item\n 4.Delete Item\n 5.Exit");
+    printf("\nEnter your Choise: ");
     scanf("%d",&n);
     switch(n)
     {
@@ -88,7 +89,7 @@ int main()
 
         case 2:
         listrec();
-        goto flag:
+        goto flag;
 
         case 3:
         Modify();
@@ -102,7 +103,7 @@ int main()
         printf("------------------Thankyou For Your Time ------------------");
         exit(0);
 
-        deafult:
+        default:
         printf("Invalid Input. Reidrecting to Home");
         goto flag;
     }    
@@ -121,37 +122,41 @@ void newacc()
         exit(0);
     }   
     char repass[20];
-    reform:
-    clear();
-    printf("========================= Signup Form =====================");
-    printf("\n User_name:  ");
-    fflush(stdin);
-    fgets(sform.uname,sizeof(sform.uname),stdin);
-    printf(" \nPassword : ");
-    fflush(stdin);
-    fgets(sform.pass,sizeof(sform.pass),stdin);
-    printf("\nConform_password:");
-    fflush(stdin);
-    fgets(repass,sizeof(repass),stdin);
-    fflush(stdin);
-    printf("\nPhone_number:\n");
-    scanf("%lld",&sform.ph);
-    
-    if(strcmp(sform.pass,repass)!=0)
+    while(1)
     {
-        printf("The password donot match.Please re-enter.\n");
-        printf("\n\n\n\n \t\t Press any key to continue...");
-        getchar();
-
-        goto reform;
-    }
-    else
-    {
-        fwrite(&sform,sizeof(sform),1,fp);
-        printf("\n \n SIGNUP SUCESSFULL.  WELCOME !!!\n");
-        printf("\n\n \t\t Press any key to continue... \n");
-        getchar;
-    }
+        clear();
+        printf("========================= Signup Form =====================");
+        printf("\n User_name:  ");
+        fflush(stdin);
+        fgets(sform.uname,sizeof(sform.uname),stdin);
+        sform.uname[strcspn(sform.uname, "\n")] = 0; 
+        printf(" \nPassword : ");
+        fflush(stdin);
+        fgets(sform.pass,sizeof(sform.pass),stdin);
+        sform.pass[strcspn(sform.pass, "\n")] = 0; 
+        printf("\nConform_password:");
+        fflush(stdin);
+        fgets(repass,sizeof(repass),stdin);
+        repass[strcspn(repass,"\n")]=0;
+        fflush(stdin);
+        printf("\nPhone_number:\n");
+        scanf("%lld",&sform.ph);
+        
+        if(strcmp(sform.pass,repass)!=0)
+        {
+            printf("The password donot match.Please re-enter.\n");
+            printf("\n\n\n\n \t\t Press any key to continue...");
+            getchar();
+        }
+        else
+        {
+            fwrite(&sform,sizeof(sform),1,fp);
+            printf("\n \n SIGNUP SUCESSFULL.  WELCOME !!!\n");
+            printf("\n\n \t\t Press any key to continue... \n");
+            getchar();
+            break;
+        }
+    }    
     fclose(fp);
     
 }
@@ -168,90 +173,100 @@ void login()
     
     int i=0,n=0, choice,passforget;
     char inp_Name[50],inp_Pass[20],ch;
-    relog:
-    clear();
-    printf("\n========================= Login Form ======================\n");
-    fflush(stdin);
-    printf("User_Name: \n");
-    fgets(inp_Name,sizeof(inp_Name),stdin);
-    fflush(stdin);
-    printf("Password:  \n");
-    fflush(stdin);
-    fgets(inp_Pass,sizeof(inp_Pass),stdin);
-    
-    rewind(fp);
-    while (fread(&sform,sizeof(sform),1,fp)==1)
+    while(1)
     {
-  
-    
-
-    
-        if(strcmp(sform.pass,inp_Pass)!=0 || strcmp(sform.uname,inp_Name)!=0)
+        int found;
+        relog:
+        clear();
+        printf("\n========================= Login Form ======================\n");
+        fflush(stdin);
+        printf("User_Name: \n");
+        fgets(inp_Name,sizeof(inp_Name),stdin);
+        inp_Name[strcspn(inp_Name, "\n")] = 0; 
+        fflush(stdin);
+        printf("Password:  \n");
+        fflush(stdin);
+        fgets(inp_Pass,sizeof(inp_Pass),stdin);
+        inp_Pass[strcspn(inp_Pass, "\n")] = 0; 
+        rewind(fp);
+        while (fread(&sform,sizeof(sform),1,fp)==1)
         {
-            n++;
-            printf("Incorrect Password or User_Name. Please try again.  \n");
-            if (n>3)
-            {   
-                getchar();
-                clear();
-                printf("====================================================\n");
-                printf("1.  Forgot Password\n");
-                printf("2.  Retry\n");
-                printf("3.  Exit\n");
-                printf("Enter your choice :\n");
-                scanf("%d",&choice);
-                switch(choice)
-                {
-                    case 1:
-                    fpass();
-                    break;
-                
-
-
-
-
-                    case 2:
-                    goto relog;
-
-                    case 3:
-                    printf("=====================Thankyou for your Time ==========\n");
-                    exit(0);
-
-                    default:
-                    printf("-------------------Invalid Input-----------------------\n");
-                    printf("Redirecting");
-                    fflush(stdout);
-                    usleep(10000);
-                    printf(".");
-                    usleep(10000);
-                    printf(".");
-                    usleep(10000);
-                    printf(".");
-                    goto relog;
-                }
-
-            }
-            goto relog;
-
-        }
-        else
-        {
-        
-            printf(" \n\n\n WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
-            printf("\n\n\n\t\t\t\tRedirecting");
-            fflush(stdout);
-            usleep(10000);
-            printf(".");
-            usleep(10000);
-            printf(".");
-            usleep(10000);
-            printf(".");
-           
+            if(strcmp(sform.pass,inp_Pass)==0 && strcmp(sform.uname,inp_Name)==0)
+            {
+                found=1;
+                break;
             
+            
+                
+            }
+        }    
+            if(found==1)
+            {
+                printf(" \n\n\n WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
+                printf("\n\n\n\t\t\t\tRedirecting");
+                fflush(stdout);
+                usleep(10000);
+                printf(".");
+                usleep(10000);
+                printf(".");
+                usleep(10000);
+                printf(".");
+                break;
+            }    
+            else
+            {
+                n++;
+                printf("Incorrect Password or User_Name. Please try again.  \n");
+                if (n>3)
+                {   
+                    getchar();
+                    clear();
+                    printf("====================================================\n");
+                    printf("1.  Forgot Password\n");
+                    printf("2.  Retry\n");
+                    printf("3.  Exit\n");
+                    printf("Enter your choice :\n");
+                    scanf("%d",&choice);
+                    switch(choice)
+                    {
+                        case 1:
+                        fpass();
+                        break;
+                    
+
+
+
+
+                        case 2:
+                        goto relog;
+
+                        case 3:
+                        printf("=====================Thankyou for your Time ==========\n");
+                        exit(0);
+
+                        default:
+                        printf("-------------------Invalid Input-----------------------\n");
+                        printf("Redirecting");
+                        fflush(stdout);
+                        usleep(10000);
+                        printf(".");
+                        usleep(10000);
+                        printf(".");
+                        usleep(10000);
+                        printf(".");
+                        goto relog;
+                    }
+
+                }
+                goto relog;
+
+                
+            }
         }
-    }
-    fclose(fp);
-}    
+        
+fclose(fp);
+}
+//}    
 
 
 void fpass()
@@ -270,6 +285,7 @@ void fpass()
     printf("User_Name:\n");
     fflush(stdin);
     fgets(fname,sizeof(fname),stdin);
+    fname[strcspn(fname, "\n")] = 0; 
     printf("Contact number:\n");
     fflush(stdin);
     scanf("%lld",&fph);
@@ -282,9 +298,11 @@ void fpass()
                 printf("Password:\n");
                 fflush(stdin);
                 fgets(sform.pass,sizeof(sform),stdin);
+                sform.pass[strcspn(sform.pass ,"\n")] = 0; 
                 printf("Conform_password:\n");
                 fflush(stdin);
                 fgets(fpsw,sizeof(fpsw),stdin);
+                fpsw[strcspn(fpsw, "\n")] = 0; 
                 if(strcmp(fpsw,sform.pass)==0)
                 {
                     fwrite(&sform,sizeof(sform),1,fp);
@@ -376,7 +394,7 @@ void listrec()
     {
         godam.Total=godam.Quantity*godam.rate;
         printf("\nItem Name: \t\t Quantity: \t\t Price: \t\t Total Value: \t\n");
-        printf("%s \t\t %d \t\t .2%f \t\t %f\t\t\n");
+        printf("%s \t\t %d \t\t .2%f \t\t %f\t\t\n",godam.Item,godam.Quantity,godam.rate,godam.Total);
     }
     printf("Thankyou  For visiting ");
     fflush(stdout);
@@ -427,7 +445,7 @@ void Modify()
         fflush(stdin);
         scanf("%c",&ch);
         ch=toupper(ch);
-        if(ch=="Y")
+        if(ch='Y')
         {
             goto remodify;
         }
@@ -452,7 +470,7 @@ void Modify()
         fflush(stdin);
         scanf("%c",&ch);
         toupper(ch);
-        if(ch=="Y")
+        if(ch=='Y')
         {
             goto remodify;
         }
