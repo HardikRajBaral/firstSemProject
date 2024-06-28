@@ -75,40 +75,41 @@ int main()
     printf(".");
     usleep(10000);
     printf(".");
-    flag:
-    clear();
-    printf("===================== Inventory Management System =========================\n");
-    printf(" 1.Add Item \n 2.List Item \n 3.Modify Item\n 4.Delete Item\n 5.Exit");
-    printf("\nEnter your Choice: ");
-    scanf("%d",&n);
-    switch(n)
+    while(1)
     {
-        case 1:
-        addrec();
-        goto flag;
+        flag:
+        clear();
+        printf("===================== Inventory Management System =========================\n");
+        printf(" 1.Add Item \n 2.List Item \n 3.Modify Item\n 4.Delete Item\n 5.Exit");
+        printf("\nEnter your Choice: ");
+        scanf("%d",&n);
+        switch(n)
+        {
+            case 1:
+            addrec();
+            
+            case 2:
+            listrec();
+            
+            case 3:
+            Modify();
+            
 
-        case 2:
-        listrec();
-        goto flag;
+            case 4 :
+            remrec();
+            
 
-        case 3:
-        Modify();
-        goto flag;
+            case 5:
+            printf("------------------Thankyou For Your Time ------------------");
+            exit(0);
 
-        case 4 :
-        remrec();
-        goto flag;
+            default:
+            printf("Invalid Input. Reidrecting to Home");
+            goto flag;
+        }
 
-        case 5:
-        printf("------------------Thankyou For Your Time ------------------");
-        exit(0);
-
-        default:
-        printf("Invalid Input. Reidrecting to Home");
-        goto flag;
-    }    
-
-
+    }
+        
     return 0;
 
 }
