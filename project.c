@@ -212,76 +212,69 @@ void login()
             {
                 found=1;
                 break;
-            
-            
                 
             }
         }    
-            if(found==1)
-            {
-                printf(" \n\n\n WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
-                printf("\n\n\n\t\t\t\tRedirecting");
-                fflush(stdout);
-                usleep(10000);
-                printf(".");
-                usleep(10000);
-                printf(".");
-                usleep(10000);
-                printf(".");
-                break;
-            }    
-            else
-            {
-                n++;
-                printf("Incorrect Password or User_Name. Please try again.  \n");
-                if (n>3)
-                {   
-                    getchar();
-                    clear();
-                    printf("====================================================\n");
-                    printf("1.  Forgot Password\n");
-                    printf("2.  Retry\n");
-                    printf("3.  Exit\n");
-                    printf("Enter your choice :\n");
-                    scanf("%d",&choice);
-                    switch(choice)
-                    {
-                        case 1:
-                        fpass();
-                        break;
-                    
+        if(found==1)
+        {
+            printf(" \n\n\n WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
+            printf("\n\n\n\t\t\t\tRedirecting");
+            fflush(stdout);
+            usleep(10000);
+            printf(".");
+            usleep(10000);
+            printf(".");
+            usleep(10000);
+            printf(".");
+            break;
+        }    
+        else
+        {
+            n++;
+            printf("Incorrect Password or User_Name. Please try again.  \n");
+            if (n>3)
+            {   
+                getchar();
+                clear();
+                printf("====================================================\n");
+                printf("1.  Forgot Password\n");
+                printf("2.  Retry\n");
+                printf("3.  Exit\n");
+                printf("Enter your choice :\n");
+                scanf("%d",&choice);
+                switch(choice)
+                {
+                    case 1:
+                    fpass();
+                    break;
 
+                    case 2:
+                    goto relog;
 
+                    case 3:
+                    printf("=====================Thankyou for your Time ==========\n");
+                    exit(0);
 
-
-                        case 2:
-                        goto relog;
-
-                        case 3:
-                        printf("=====================Thankyou for your Time ==========\n");
-                        exit(0);
-
-                        default:
-                        printf("-------------------Invalid Input-----------------------\n");
-                        printf("Redirecting");
-                        fflush(stdout);
-                        usleep(10000);
-                        printf(".");
-                        usleep(10000);
-                        printf(".");
-                        usleep(10000);
-                        printf(".");
-                        goto relog;
-                    }
-
+                    default:
+                    printf("-------------------Invalid Input-----------------------\n");
+                    printf("Redirecting");
+                    fflush(stdout);
+                    usleep(10000);
+                    printf(".");
+                    usleep(10000);
+                    printf(".");
+                    usleep(10000);
+                    printf(".");
+                    goto relog;
                 }
-                goto relog;
 
-                
             }
+            goto relog;
+
         }
+     }
         
-fclose(fp);
+    fclose(fp);
 }
   
 
@@ -484,7 +477,7 @@ void Modify()
         {
             if(strcmp(godam.Item,name)==0)
             {
-                printf("Enter New Prce: \n");
+                printf("Enter New Price: \n");
                 scanf("%d",godam.rate);
                 fseek(ft,-sizeof(godam),SEEK_CUR);
                 fwrite(&godam,sizeof(godam),1,ft);
@@ -494,7 +487,7 @@ void Modify()
         printf("DO you want to Modify more Price? (Y/N)\n");
         fflush(stdin);
         scanf("%c",&ch);
-        toupper(ch);
+        ch=toupper(ch);
         if(ch=='Y')
         {
             goto remodify;
