@@ -79,7 +79,7 @@ int main()
     clear();
     printf("===================== Inventory Management System =========================\n");
     printf(" 1.Add Item \n 2.List Item \n 3.Modify Item\n 4.Delete Item\n 5.Exit");
-    printf("\nEnter your Choise: ");
+    printf("\nEnter your Choice: ");
     scanf("%d",&n);
     switch(n)
     {
@@ -124,6 +124,9 @@ void newacc()
     char repass[20];
     while(1)
     {
+        unsigned long long int temp;
+        int count;
+        label:
         clear();
         printf("========================= Signup Form =====================");
         printf("\n User_name:  ");
@@ -134,13 +137,27 @@ void newacc()
         fflush(stdin);
         fgets(sform.pass,sizeof(sform.pass),stdin);
         sform.pass[strcspn(sform.pass, "\n")] = 0; 
-        printf("\nConform_password:");
+        printf("\nConfirm_password:");
         fflush(stdin);
         fgets(repass,sizeof(repass),stdin);
         repass[strcspn(repass,"\n")]=0;
         fflush(stdin);
         printf("\nPhone_number:\n");
+        printf("(Pnone number should be exactly 10 digits.)");
         scanf("%lld",&sform.ph);
+        temp=sform.ph;
+        while(temp!=0)
+        {
+            temp=temp/10;
+            count++;
+
+            
+        }
+        if(count!=10)
+        {
+            printf("Phone number does not meet the requriement.");
+            goto label;
+        }
         
         if(strcmp(sform.pass,repass)!=0)
         {
@@ -266,7 +283,7 @@ void login()
         
 fclose(fp);
 }
-//}    
+  
 
 
 void fpass()
@@ -280,6 +297,7 @@ void fpass()
     char fname[50],fpsw[20];
     unsigned long long int fph;
     forget:
+    int found;
     clear();
     printf("=========================== Password Change Form ==================================\n");
     printf("User_Name:\n");
@@ -295,20 +313,28 @@ void fpass()
 
             if(strcmp(fname,sform.uname)==0 && sform.ph==fph)
             {
-                printf("Password:\n");
+                found=1;
+            }
+             
+
+        }
+        if(found==1)
+        {
+              printf("New_Password:\n");
                 fflush(stdin);
                 fgets(sform.pass,sizeof(sform),stdin);
                 sform.pass[strcspn(sform.pass ,"\n")] = 0; 
-                printf("Conform_password:\n");
+                printf("Confirm_password:\n");
                 fflush(stdin);
                 fgets(fpsw,sizeof(fpsw),stdin);
                 fpsw[strcspn(fpsw, "\n")] = 0; 
                 if(strcmp(fpsw,sform.pass)==0)
                 {
+                    fseek(fp,-sizeof(godam),SEEK_CUR);
                     fwrite(&sform,sizeof(sform),1,fp);
                     printf("Password changed sucessfully\n");
                     getchar();
-                }
+                }  
                 else
                 {
                     printf("Both password donot match \n");
@@ -323,17 +349,16 @@ void fpass()
                     goto forget;
 
                 }
-                
-
-            }
-            else
-            {
-                printf("Your Username or Details do not match. Redirecting to change passord form....\n");
-                goto forget;
-
-            }
+        }          
+        
+        else
+        {
+            printf("Your Username or Details do not match. Redirecting to change passord form....\n");
+            goto forget;
 
         }
+        
+        
         fclose(fp);
 }
 void clear()
@@ -414,7 +439,7 @@ void Modify()
     ft=fopen("Inventorylist.txt","a+");
     if(ft==NULL)
 	{
-		puts("FILE CANNOT OPEN");
+		puts("FILE CANNOT OPEN\n");
 		exit(0);
 	}
     int opt;
@@ -436,7 +461,7 @@ void Modify()
             {
                 printf("Enter New Quantity: \n");
                 scanf("%d",godam.Quantity);
-                fseek(fp,-sizeof(godam),SEEK_CUR);
+                fseek(ft,-sizeof(godam),SEEK_CUR);
                 fwrite(&godam,sizeof(godam),1,ft);
                 break;
             }    
@@ -461,7 +486,7 @@ void Modify()
             {
                 printf("Enter New Prce: \n");
                 scanf("%d",godam.rate);
-                fseek(fp,-sizeof(godam),SEEK_CUR);
+                fseek(ft,-sizeof(godam),SEEK_CUR);
                 fwrite(&godam,sizeof(godam),1,ft);
                 break;
             }    
