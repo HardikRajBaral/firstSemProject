@@ -77,7 +77,7 @@ int main()
     printf(".");
     while(1)
     {
-        flag:
+    
         clear();
         printf("===================== Inventory Management System =========================\n");
         printf(" 1.Add Item \n 2.List Item \n 3.Modify Item\n 4.Delete Item\n 5.Exit");
@@ -105,7 +105,7 @@ int main()
 
             default:
             printf("Invalid Input. Reidrecting to Home");
-            goto flag;
+            
         }
 
     }
@@ -142,9 +142,9 @@ void newacc()
         fflush(stdin);
         fgets(repass,sizeof(repass),stdin);
         repass[strcspn(repass,"\n")]=0;
+        printf("(Phone number should be exactly 10 digits.\n)");
         fflush(stdin);
         printf("\nPhone_number:\n");
-        printf("(Pnone number should be exactly 10 digits.)");
         scanf("%lld",&sform.ph);
         temp=sform.ph;
         while(temp!=0)
@@ -370,26 +370,37 @@ void addrec()
 		exit(0);
 	}
     char option;
-    rewind(ft);
-    clear();
-    readd:
-    printf("================ Item Page ===============\n");
-    printf(" Item_Name : \n");
-    fgets(godam.Item,sizeof(godam.Item),stdin);
-    fflush(stdin);
-    printf(" Quantity :\n");
-    scanf("%d",godam.Quantity);
-    fflush(stdin);
-    printf(" Price :\n");
-    scanf("%f",godam.rate);
-    getchar();
-    fwrite(&godam,sizeof(godam),1,ft);
-    printf("Do you want to add more item? (Y/N)\n");
-    fgets(&option,sizeof(option),stdin);
-    toupper(option);
-    if (option=='Y')
+    while(1)
     {
-        goto readd;
+        
+        clear();
+        readd:
+        printf("================ Item Page ===============\n");
+        printf(" Item_Name : \n");
+        fgets(godam.Item,sizeof(godam.Item),stdin);
+        godam.Item[strcspn(godam.Item, "\n")] = 0;
+        fflush(stdin);
+        printf(" Quantity :\n");
+        scanf("%d",&godam.Quantity);
+        fflush(stdin);
+        printf(" Price :\n");
+        scanf("%f",&godam.rate);
+        fwrite(&godam,sizeof(godam),1,ft);
+        fflush(stdin);
+        printf("Do you want to add more item? (Y/N)\n");
+        fgets(&option,sizeof(option),stdin);
+        //option=toupper(option);
+        option=getchar();
+        while(option!='\n')
+        {
+            
+            if (option= 'N')
+            {
+                return;
+            }
+
+        }
+
     }
 
     fclose(ft);
@@ -400,7 +411,7 @@ void addrec()
 void listrec()
 {
 
-    ft=fopen("Inventorylist.txt","a+");
+    ft=fopen("Inventorylist.txt","r");
     if(ft==NULL)
 	{
 		puts("FILE CANNOT OPEN");
@@ -438,79 +449,81 @@ void Modify()
 	}
     int opt;
     char name[50],ch;
-    clear();
-    rewind(fp);
-    remodify:
-    printf("================ Modification Menu ============\n");
-    printf("1.Quantity \t\t\n 2.Price\t\t\n 3.Exit\n");
-    switch(opt)
+    while(1)
     {
-        case 1:
-        printf("Enter the Name of product: \n");
-        fflush(stdin);
-        fgets(name,sizeof(name),stdin);
-        while (fread(&godam,sizeof(godam),1,ft)==1);
-        {
-            if(strcmp(godam.Item,name)==0)
-            {
-                printf("Enter New Quantity: \n");
-                scanf("%d",godam.Quantity);
-                fseek(ft,-sizeof(godam),SEEK_CUR);
-                fwrite(&godam,sizeof(godam),1,ft);
-                break;
-            }    
-        }
-        printf("DO you want to Modify more Quantity? (Y/N)\n");
-        fflush(stdin);
-        scanf("%c",&ch);
-        ch=toupper(ch);
-        if(ch='Y')
-        {
-            goto remodify;
-        }
-        break;
-
-        case 2:
-        printf("Enter the Name of product\n");
-        fflush(stdin);
-        fgets(name,sizeof(name),stdin);
-        while (fread(&godam,sizeof(godam),1,ft)==1);
-        {
-            if(strcmp(godam.Item,name)==0)
-            {
-                printf("Enter New Price: \n");
-                scanf("%d",godam.rate);
-                fseek(ft,-sizeof(godam),SEEK_CUR);
-                fwrite(&godam,sizeof(godam),1,ft);
-                break;
-            }    
-        }
-        printf("DO you want to Modify more Price? (Y/N)\n");
-        fflush(stdin);
-        scanf("%c",&ch);
-        ch=toupper(ch);
-        if(ch=='Y')
-        {
-            goto remodify;
-        }
-        break;
-
-        case 3:
-        exit(0);
-
-        default:
-        printf("Invalid inpt. Redirecting");
-        fflush(stdout);
-        usleep(10000);
-        printf(".");
-        usleep(10000);
-        printf(".");
-        usleep(10000);
-        printf(".");
+        clear();
+        rewind(ft);
         
-        goto remodify;
+        printf("================ Modification Menu ============\n");
+        printf("1.Quantity \t\t\n 2.Price\t\t\n 3.Exit\n");
+        switch(opt)
+        {
+            case 1:
+            printf("Enter the Name of product: \n");
+            fflush(stdin);
+            fgets(name,sizeof(name),stdin);
+            while (fread(&godam,sizeof(godam),1,ft)==1);
+            {
+                if(strcmp(godam.Item,name)==0)
+                {
+                    printf("Enter New Quantity: \n");
+                    scanf("%d",&godam.Quantity);
+                    fseek(ft,-sizeof(godam),SEEK_CUR);
+                    fwrite(&godam,sizeof(godam),1,ft);
+                    break;
+                }    
+            }
+            printf("DO you want to Modify more Quantity? (Y/N)\n");
+            fflush(stdin);
+            scanf("%c",&ch);
+            ch=toupper(ch);
+            if(ch='N')
+            {
+                return;
+            }
+            break;
 
+            case 2:
+            printf("Enter the Name of product\n");
+            fflush(stdin);
+            fgets(name,sizeof(name),stdin);
+            while (fread(&godam,sizeof(godam),1,ft)==1);
+            {
+                if(strcmp(godam.Item,name)==0)
+                {
+                    printf("Enter New Price: \n");
+                    scanf("%d",&godam.rate);
+                    fseek(ft,-sizeof(godam),SEEK_CUR);
+                    fwrite(&godam,sizeof(godam),1,ft);
+                    break;
+                }    
+            }
+            printf("DO you want to Modify more Price? (Y/N)\n");
+            fflush(stdin);
+            scanf("%c",&ch);
+            ch=toupper(ch);
+            if(ch=='N')
+            {
+                return;
+            }
+            break;
+
+                case 3:
+                exit(0);
+
+                default:
+                printf("Invalid inpt. Redirecting");
+                fflush(stdout);
+                usleep(10000);
+                printf(".");
+                usleep(10000);
+                printf(".");
+                usleep(10000);
+                printf(".");
+
+        }
     }
+
 
     fclose(ft);    
 }
@@ -526,25 +539,30 @@ void remrec()
         printf("File not found!!!");
         exit(0);
     }
-    reremove:
-    printf(" Item Name:\n");
-    fflush(stdin);
-    fgets(itemname,sizeof(itemname),stdin);
-    while(fread(&godam,sizeof(godam),1,ft)==1)
+    while(1)
     {
-        if(strcmp(itemname,godam.Item)!=0)
+
+        printf(" Item Name:\n");
+        fflush(stdin);
+        fgets(itemname,sizeof(itemname),stdin);
+        itemname[strcspn(itemname, "\n")] = 0; 
+        while(fread(&godam,sizeof(godam),1,ft)==1)
         {
-            fwrite(&godam,sizeof(godam),1,rt);
+            if(strcmp(itemname,godam.Item)!=0)
+            {
+                fwrite(&godam,sizeof(godam),1,rt);
+            }
+        }
+        remove("Inventorylist.txt");
+        rename("Tempinventory.txt","Inventorylist.txt");
+        printf("Do you want to remove more Items.(Y/N) ");
+        fflush(stdin);
+        scanf("%c",&option);
+        if (option=='N')
+        {
+            return;
         }
     }
     fclose(rt);
     fclose(ft);
-    remove("Inventorylist.txt");
-    rename("Tempinventory.txt","Inventorylist.txt");
-    printf("Do you want to remove more Items.(Y/N) ");
-    scanf("%c",&option);
-    if (option=='Y')
-    {
-        goto reremove;
-    }
 }
