@@ -63,7 +63,9 @@ int main()
         exit(0);
 
         deafult:
-        printf("The input is incorrect. Please input the number of the choices\n");
+        printf("The input is incorrect. Please input the number of the given choices\n");
+        fflush(stdin);
+        getchar();
         goto re;
     }
     clear();
@@ -87,16 +89,20 @@ int main()
         {
             case 1:
             addrec();
+            break;
             
             case 2:
             listrec();
+            break;
             
             case 3:
             Modify();
+            break;
             
 
             case 4 :
             remrec();
+            break;
             
 
             case 5:
@@ -104,7 +110,9 @@ int main()
             exit(0);
 
             default:
-            printf("Invalid Input. Reidrecting to Home");
+            printf("Invalid Input. Reidrecting to Home.");
+            fflush(stdin);
+            getchar();
             
         }
 
@@ -127,13 +135,31 @@ void newacc()
     {
         unsigned long long int temp;
         int count;
+        struct signup extra;
         label:
         clear();
         printf("========================= Signup Form =====================");
+        fflush(stdin);
         printf("\n User_name:  ");
         fflush(stdin);
         fgets(sform.uname,sizeof(sform.uname),stdin);
         sform.uname[strcspn(sform.uname, "\n")] = 0; 
+        rewind(fp);
+        while(fread(&extra,sizeof(extra),1,fp)==1)
+        {
+            if(strcmp(extra.uname,sform.uname)==0)
+            {   
+                printf("Username already exist.Please Enter diffrernt Username.");
+                fflush(stdin);
+                getchar();
+                goto label;
+            }
+            else
+            {
+                break;
+            }
+        }
+
         printf(" \nPassword : ");
         fflush(stdin);
         fgets(sform.pass,sizeof(sform.pass),stdin);
@@ -142,6 +168,13 @@ void newacc()
         fflush(stdin);
         fgets(repass,sizeof(repass),stdin);
         repass[strcspn(repass,"\n")]=0;
+        if(strcmp(sform.pass,repass)!=0)
+        {
+            printf("The password donot match.Please re-enter.\n");
+            fflush(stdin);
+            getchar();
+            goto label;
+        }
         printf("(Phone number should be exactly 10 digits.\n)");
         fflush(stdin);
         printf("\nPhone_number:\n");
@@ -154,26 +187,23 @@ void newacc()
 
             
         }
-        if(count!=10)
+        if(count==10)
         {
-            printf("Phone number does not meet the requriement.");
+            printf("Please enter exactly 10 digits.");
+            fflush(stdin);
+            getchar();
             goto label;
         }
+    
         
-        if(strcmp(sform.pass,repass)!=0)
-        {
-            printf("The password donot match.Please re-enter.\n");
-            printf("\n\n\n\n \t\t Press any key to continue...");
-            getchar();
-        }
-        else
-        {
-            fwrite(&sform,sizeof(sform),1,fp);
-            printf("\n \n SIGNUP SUCESSFULL.  WELCOME !!!\n");
-            printf("\n\n \t\t Press any key to continue... \n");
-            getchar();
-            break;
-        }
+        
+        fwrite(&sform,sizeof(sform),1,fp);
+        printf("\n \n SIGNUP SUCESSFULL.  WELCOME !!!\n");
+        printf("\n\n \t\t Press any key to continue... \n");
+        fflush(stdin);
+        getchar();
+        break;
+        
     }    
     fclose(fp);
     
@@ -388,18 +418,23 @@ void addrec()
         fwrite(&godam,sizeof(godam),1,ft);
         fflush(stdin);
         printf("Do you want to add more item? (Y/N)\n");
+        fflush(stdin);
         fgets(&option,sizeof(option),stdin);
-        //option=toupper(option);
+        option=toupper(option);
         option=getchar();
-        while(option!='\n')
+        if(option='N')
         {
-            
-            if (option= 'N')
-            {
-                return;
-            }
-
+            printf("Redirecting ");
+            fflush(stdout);
+            usleep(10000);
+            printf(".");
+            usleep(10000);
+            printf(".");
+            usleep(10000);
+            printf(".");
+            break;
         }
+       
 
     }
 
