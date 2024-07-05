@@ -417,9 +417,10 @@ void addrec()
         scanf("%f",&godam.rate);
         fwrite(&godam,sizeof(godam),1,ft);
         fflush(stdin);
+        ys:
         printf("Do you want to add more item? (Y/N)\n");
         fflush(stdin);
-        fgets(&option,sizeof(option),stdin);
+        scanf("%c",&option);
         option=toupper(option);
         option=getchar();
         if(option='N')
@@ -433,6 +434,15 @@ void addrec()
             usleep(10000);
             printf(".");
             break;
+        }
+        else if(option='Y')
+        {
+            continue;
+        }
+        else
+        {
+            printf("Invalid value please Re-enter the option.");
+            goto ys;
         }
        
 
@@ -461,6 +471,8 @@ void listrec()
         printf("\nItem Name: \t\t Quantity: \t\t Price: \t\t Total Value: \t\n");
         printf("%s \t\t %d \t\t .2%f \t\t %f\t\t\n",godam.Item,godam.Quantity,godam.rate,godam.Total);
     }
+    fflush(stdin);
+    getchar();
     printf("Thankyou  For visiting ");
     fflush(stdout);
     usleep(10000);
@@ -491,6 +503,8 @@ void Modify()
         
         printf("================ Modification Menu ============\n");
         printf("1.Quantity \t\t\n 2.Price\t\t\n 3.Exit\n");
+        printf("Enter your choise:\n");
+        scanf("%d",opt);
         switch(opt)
         {
             case 1:
@@ -508,6 +522,7 @@ void Modify()
                     break;
                 }    
             }
+            again:
             printf("DO you want to Modify more Quantity? (Y/N)\n");
             fflush(stdin);
             scanf("%c",&ch);
@@ -515,6 +530,15 @@ void Modify()
             if(ch='N')
             {
                 return;
+            }
+            else if(ch='Y')
+            {
+                continue;
+            }
+            else
+            {
+                printf("Invalid  input.");
+                goto again;
             }
             break;
 
@@ -533,6 +557,7 @@ void Modify()
                     break;
                 }    
             }
+            again1:
             printf("DO you want to Modify more Price? (Y/N)\n");
             fflush(stdin);
             scanf("%c",&ch);
@@ -541,6 +566,16 @@ void Modify()
             {
                 return;
             }
+            else if(ch='Y')
+            {
+                continue;
+            }
+            else
+            {
+                printf("Invalid  input.");
+                goto again1;
+            }
+        
             break;
 
                 case 3:
