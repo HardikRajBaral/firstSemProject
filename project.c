@@ -320,8 +320,8 @@ void fpass()
     }   
     char fname[50],fpsw[20];
     unsigned long long int fph;
-    forget:
     int found;
+    forget:
     clear();
     printf("=========================== Password Change Form ==================================\n");
     printf("User_Name:\n");
@@ -370,6 +370,8 @@ void fpass()
                     printf(".");
                     usleep(10000);
                     printf(".");
+                    fflush(stdin);
+                    getchar();
                     goto forget;
 
                 }
