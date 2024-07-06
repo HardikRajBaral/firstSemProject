@@ -490,7 +490,7 @@ void listrec()
 void Modify()
 {
 
-    ft=fopen("Inventorylist.txt","a+");
+    ft=fopen("Inventorylist.txt","r+");
     if(ft==NULL)
 	{
 		puts("FILE CANNOT OPEN\n");
@@ -506,15 +506,15 @@ void Modify()
         printf("================ Modification Menu ============\n");
         printf("1.Quantity \t\t\n 2.Price\t\t\n 3.Exit\n");
         printf("Enter your choise:\n");
-        scanf("%d",opt);
+        scanf("%d",&opt);
         switch(opt)
         {
             case 1:
             printf("Enter the Name of product: \n");
-            fflush(stdin);
+            while(getchar()!='\n');
             fgets(name,sizeof(name),stdin);
             name[strcspn(name, "\n")] = 0;
-            while (fread(&godam,sizeof(godam),1,ft)==1);
+            while (fread(&godam,sizeof(godam),1,ft)==1)
             {
                 if(strcmp(godam.Item,name)==0)
                 {
@@ -523,15 +523,22 @@ void Modify()
                     fseek(ft,-sizeof(godam),SEEK_CUR);
                     fwrite(&godam,sizeof(godam),1,ft);
                     break;
+                }
+                else 
+                {
+                    printf("Item not found.");
+                    fflush(stdin);
+                    getchar();
                 }    
             }
             again:
             printf("DO you want to Modify more Quantity? (Y/N)\n");
-            fflush(stdin);
+            while(getchar()!='\n');
             scanf("%c",&ch);
             ch=toupper(ch);
             if(ch='N')
             {
+                fclose(ft);
                 return;
             }
             else if(ch='Y')
@@ -547,8 +554,9 @@ void Modify()
 
             case 2:
             printf("Enter the Name of product\n");
-            fflush(stdin);
+            while(getchar()!='\n');
             fgets(name,sizeof(name),stdin);
+            name[strcspn(name, "\n")] = 0;
             while (fread(&godam,sizeof(godam),1,ft)==1);
             {
                 if(strcmp(godam.Item,name)==0)
@@ -558,15 +566,22 @@ void Modify()
                     fseek(ft,-sizeof(godam),SEEK_CUR);
                     fwrite(&godam,sizeof(godam),1,ft);
                     break;
-                }    
+                }
+                else
+                {
+                    printf("The Item ot found!!!"); 
+                    fflush(stdin);
+                    getchar();
+                }   
             }
             again1:
             printf("DO you want to Modify more Price? (Y/N)\n");
-            fflush(stdin);
+           while(getchar()!='\n');
             scanf("%c",&ch);
             ch=toupper(ch);
-            if(ch=='N')
+            if(ch='N')
             {
+                fclose(ft);
                 return;
             }
             else if(ch='Y')
@@ -617,7 +632,7 @@ void remrec()
         again2:
 
         printf(" Item Name:\n");
-        fflush(stdin);
+        while(getchar()!='\n');
         fgets(itemname,sizeof(itemname),stdin);
         itemname[strcspn(itemname, "\n")] = 0; 
         while(fread(&godam,sizeof(godam),1,ft)==1)
@@ -630,12 +645,15 @@ void remrec()
         remove("Inventorylist.txt");
         rename("Tempinventory.txt","Inventorylist.txt");
         printf("Do you want to remove more Items.(Y/N) ");
-        fflush(stdin);
+        while (getchar()!='\n');
+        option=toupper(option);
         scanf("%c",&option);
         if (option=='N')
         {
-            break;
-        }
+            fclose(rt);
+            fclose(ft);
+            return;
+        }    
          else if(option='Y')
         {
             continue;
