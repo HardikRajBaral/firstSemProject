@@ -513,6 +513,7 @@ void Modify()
             printf("Enter the Name of product: \n");
             fflush(stdin);
             fgets(name,sizeof(name),stdin);
+            name[strcspn(name, "\n")] = 0;
             while (fread(&godam,sizeof(godam),1,ft)==1);
             {
                 if(strcmp(godam.Item,name)==0)
@@ -613,6 +614,7 @@ void remrec()
     }
     while(1)
     {
+        again2:
 
         printf(" Item Name:\n");
         fflush(stdin);
@@ -632,8 +634,18 @@ void remrec()
         scanf("%c",&option);
         if (option=='N')
         {
-            return;
+            break;
         }
+         else if(option='Y')
+        {
+            continue;
+        }
+        else
+        {
+            printf("Invalid  input.");
+            goto again2;
+        }
+        
     }
     fclose(rt);
     fclose(ft);
